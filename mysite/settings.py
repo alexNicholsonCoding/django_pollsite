@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['alexnicholsonanalysis.pythonanywhere.com']
 
+STATIC_ROOT = BASE_DIR / 'static'
 
 # Application definition
 
