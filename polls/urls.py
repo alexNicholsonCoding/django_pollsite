@@ -10,7 +10,6 @@ from polls import urls
 
 urlpatterns = [
     path("", include(urls)),
-    path('polls/', include('polls.urls')),
     path('admin/', admin.site.urls),
     path('', views.IndexView.as_view(), name='index'),
     path('<int:pk>/', views.DetailView.as_view(), name='detail'),
