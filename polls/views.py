@@ -7,6 +7,8 @@ from django.test import TestCase
 
 from .models import Choice, Question
 
+class HomePageView(TemplateView):
+template_name='pages/home.html'
 
 class IndexView(generic.ListView):
     template_name = 'polls/index.html'
