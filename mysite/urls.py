@@ -17,17 +17,19 @@ from django.contrib import admin
 from django.urls import include, path
 from django.shortcuts import redirect
 from django.views.generic.base import RedirectView
-from . import views
 
 
 #points the root URLconf at the polls.urls module
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('', RedirectView.as_view(url='/polls/')),
     path('polls/', include('polls.urls')),
     path('admin/', admin.site.urls),
     path('go-to-django/', RedirectView.as_view(url='')),
 ]
+
+# www.example.com/ -> www.example.com/polls/
+# www.example.com/polls/
 
 
 
