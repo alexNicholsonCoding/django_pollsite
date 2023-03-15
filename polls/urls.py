@@ -8,12 +8,12 @@ app_name = 'polls'
 
 
 urlpatterns = [
+    path(r'^$', views.index, name='index'),
     path('admin/', admin.site.urls),
     path('', views.IndexView.as_view(), name='index'),
     path('<int:pk>/', views.DetailView.as_view(), name='detail'),
     path('<int:pk>/results/', views.ResultsView.as_view(), name='results'),
     path('<int:question_id>/vote/', views.vote, name='vote'),
-    path('', HomePageView.as_view(),name='home'),
-    path('about/', AboutPageView.as_view(), name='about'),
+
 ]
 
