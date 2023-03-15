@@ -27,6 +27,15 @@ class QuestionModelTests(TestCase):
         return Question.objects.create(question_text=question_text, pub_date=time)
 
     class QuestionIndexViewTests(TestCase):
+        def create_question(question_text, days):
+            """
+            Create a question with the given `question_text` and published the
+            given number of `days` offset to now (negative for questions published
+            in the past, positive for questions that have yet to be published).
+            """
+            time = timezone.now() + datetime.timedelta(days=days)
+            return Question.objects.create(question_text=question_text, pub_date=time)
+
         def test_no_questions(self):
             """
             If no questions exist, an appropriate message is displayed.
@@ -41,7 +50,7 @@ class QuestionModelTests(TestCase):
             Questions with a pub_date in the past are displayed on the
             index page.
             """
-            question = create_question(question_text="Past question.", days=-30)
+            question = QuestionModelTests.create_question(question_text="Past question.", days=-30)
             response = self.client.get(reverse('polls:index'))
             self.assertQuerysetEqual(
                 response.context['latest_question_list'],
@@ -53,7 +62,7 @@ class QuestionModelTests(TestCase):
             Questions with a pub_date in the future aren't displayed on
             the index page.
             """
-            create_question(question_text="Future question.", days=30)
+            QuestionModelTests.create_question(question_text="Future question.", days=30)
             response = self.client.get(reverse('polls:index'))
             self.assertContains(response, "No polls are available.")
             self.assertQuerysetEqual(response.context['latest_question_list'], [])
@@ -63,8 +72,8 @@ class QuestionModelTests(TestCase):
             Even if both past and future questions exist, only past questions
             are displayed.
             """
-            question = create_question(question_text="Past question.", days=-30)
-            create_question(question_text="Future question.", days=30)
+            question = QuestionModelTests.create_question(question_text="Past question.", days=-30)
+            QuestionModelTests.create_question(question_text="Future question.", days=30)
             response = self.client.get(reverse('polls:index'))
             self.assertQuerysetEqual(
                 response.context['latest_question_list'],
