@@ -15,12 +15,25 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from django.shortcuts import redirect
+from django.views.generic.base import RedirectView
 
-from polls import urls
+
 
 #points the root URLconf at the polls.urls module
 
 urlpatterns = [
     path('polls/', include('polls.urls')),
     path('admin/', admin.site.urls),
+    path('go-to-django/', RedirectView.as_view(url='')),
 ]
+
+
+
+
+def fixed_polls(request):
+    ...
+    return redirect('polls/')
+
+def redirect_view(request):
+  return HttpResponseRedirect('polls/')
